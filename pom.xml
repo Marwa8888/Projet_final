@@ -18,6 +18,14 @@
         <java.version>8</java.version>
     </properties>
     
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus.snapshots</id>
+            <name>repo snapshot</name>
+             <url>http://104.42.210.144:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
 
     <dependencies>
        
