@@ -12,24 +12,26 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.4.RELEASE</version>
     </parent>
+    <packaging>war</packaging>
 
     <properties>
         <java.version>12</java.version>
     </properties>
+    
 
     <dependencies>
-        <!-- libraries for working with MongoDB servers -->
+       
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-        <!-- libraries for implemting tests on springboot projects -->
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- libraries to turn springboot project into a webservice -->
+  
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -42,7 +44,39 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+              <groupId>com.spotify</groupId>
+              <artifactId>dockerfile-maven-plugin</artifactId>
+              <version>1.4.10</version>
+              <executions>
+                <execution>
+                  <id>default</id>
+                  <goals>
+                    <goal>build</goal>
+                    <goal>push</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <repository>wunderit/projetcd</repository>
+                
+                <buildArgs>
+                  <JAR_FILE>${project.build.finalName}.${project.packaging}</JAR_FILE>
+                </buildArgs>
+              </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
         </plugins>
-    </build>
+</build>
+
+
 
 </project>
