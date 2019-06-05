@@ -74,7 +74,7 @@
 			    </execution>
 			  </executions>
 			  <configuration>
-			    <repository>docker.io/</repository>
+			    <repository>http://104.42.210.144:8081/repository/maven-central</repository>
 			    <tag>${project.version}</tag>
 			    </configuration>
 			</plugin>
