@@ -7,15 +7,15 @@
   
    <server>
       <id>nexus-snapshot</id>
-      <username>nexus</username>
-      <password>nexus123</password>
+      <username>admin</username>
+      <password>admin123</password>
    </server>
 </servers>
-    <!--<mirrors>
+       <mirrors>
            <mirror>
   		<id>nexus-mirror</id>
-  		<url>http://localhost:8081/repository/projet/</url>
+  		<url>http://104.42.210.144:8081/repository/maven-central/</url>
   		<mirrorOf>central</mirrorOf>
            </mirror>
-      </mirrors>-->
+      </mirrors>
 </settings>
