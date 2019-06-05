@@ -1,0 +1,21 @@
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+<servers>
+  
+   <server>
+      <id>nexus-snapshot</id>
+      <username>nexus</username>
+      <password>nexus123</password>
+   </server>
+</servers>
+    <!--<mirrors>
+           <mirror>
+  		<id>nexus-mirror</id>
+  		<url>http://localhost:8081/repository/projet/</url>
+  		<mirrorOf>central</mirrorOf>
+           </mirror>
+      </mirrors>-->
+</settings>
