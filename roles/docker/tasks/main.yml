@@ -1,0 +1,59 @@
+---
+# tasks file for docker
+
+- name: update the system
+  yum:
+    name: "*"
+    state: latest
+
+- name: restart system to reboot to newest kernel
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+
+- name: wait for 10 seconds
+  pause:
+    seconds: 10
+
+- name: wait for the system to reboot
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 60
+
+- name: Ensure old versions of Docker are not installed
+  package:
+    name:
+      - docker
+      - docker-client
+      - docker-clent-latest
+      - docker-common
+      - docker-engine
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate 
+    state: absent
+
+- name: Ensure tools are installed
+  yum:
+    name: yum-utils, device-mapper-persistent-data, lvm2
+    state: present
+
+- name: Add repository
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+
+- name: Ensure docker files are installed
+  yum:
+    name: docker-ce, docker-ce-cli, containerd.io
+    state: present
+
+- name: Ensure Docker is started
+  systemd:
+    state: started
+    name: docker  
+
+- name: Ensure Docker is enabled
+  shell: systemctl enable docker
+

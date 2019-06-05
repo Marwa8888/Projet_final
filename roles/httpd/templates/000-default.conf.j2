@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+  
+  ProxyPreserveHost On
+  ProxyRequests Off
+  AllowEncodedSlashes NoDecode
+
+  ProxyPass "/jenkins/" http://10.0.0.10:8080/jenkins/ nocanon
+  ProxyPassReverse "/jenkins/" http://10.0.0.10:8080/jenkins/
+
+  ProxyPass "/nexus/" http://10.0.0.12:8081/nexus/ nocanon
+  ProxyPassReverse "/nexus/" http://10.0.0.12:8081/nexus/
+
+
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+</VirtualHost>
+

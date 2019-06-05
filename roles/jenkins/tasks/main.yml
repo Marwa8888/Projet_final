@@ -1,0 +1,43 @@
+---
+
+- name: Downlowd and install Jenkins
+  yum_repository:
+    name: jenkins
+    description: Jenkins YUM repo
+    baseurl: http://pkg.jenkins-ci.org/redhat-stable/
+    enabled: yes
+
+- name: import Jenkins rpm key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: CENTOS | Install Jenkins
+  yum:
+    name: jenkins
+    state: present
+
+- name: CENTOS| install Java 
+  yum:
+    name:
+      - java-1.8.0-openjdk-devel
+    state: present
+
+- name: Install Git
+  yum:
+    name: git
+    state: present
+
+- name: Ensure Jenkins user exists
+  user:
+    name: "jenkins"
+    group: "jenkins"
+    groups: "wheel"
+    shell: "/bin/bash"
+    state: present
+
+- name: Configure Jenkins 
+  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins
+
+- name: Ensure Jenkins is running
+  service: name=jenkins state=started enabled=yes

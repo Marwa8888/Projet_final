@@ -1,0 +1,40 @@
+--- 
+- name: Install apache and configure web proxy  
+  hosts: apache 
+  become: True
+  roles:
+    - httpd 
+  tags:
+    - httpd
+
+- name: Install Jenkins 
+  hosts: jenkins 
+  become: True
+  roles:
+    - jenkins 
+  tags:
+    - jenkins
+
+- name: Install Nexus 
+  hosts: nexus 
+  become: True
+  roles:
+    - nexus 
+  tags:
+    - nexus
+
+- name: Install Docker
+  hosts: slave 
+  become: True
+  roles:
+    - docker 
+  tags:
+    - docker
+
+- name: Install Maven
+  hosts: slave 
+  become: True
+  roles:
+    - maven 
+  tags:
+    - maven
