@@ -11,7 +11,7 @@ pipeline {
     node {
       stage('List pods') {
         withKubeConfig([credentialsId: '<credential-id>',
-                        caCertificate: '<ca-certificate>',
+                        caCertificate: 'ca.crt',
                         serverUrl: '35.205.196.237',
                         contextName: 'test',
                         clusterName: 'test',
