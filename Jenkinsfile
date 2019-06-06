@@ -39,6 +39,38 @@ pipeline {
                 sh 'docker push di122/projetfinal:1.0.0-SNAPSHOT'
             }
         }
-    }   
+        
+        stage('Run gcloud') {
+            steps {
+                withEnv(['GCLOUD_PATH=/var/lib/jenkins/google-cloud-sdk/bin']){
+                    sh '$GCLOUD_PATH/gcloud --version'
+                }
+            }
+        }
+        stage('checkoutkub') {
+            steps {
+                sh 'echo $PATH'
+                withEnv(['GCLOUD_PATH=/var/lib/jenkins/google-cloud-sdk/bin']){
+                sh '$GCLOUD_PATH/gcloud container clusters get-credentials test --zone europe-west1-b --project projetfinale-242610'
+                }
+                git branch: 'features/kube', credentialsId: '1c240902-a067-40ae-9420-6adba8545569', url: 'https://github.com/Marwa8888/Projet_final.git'
+            }
+        }
+        stage('namespace') {
+            steps {
+                sh 'kubectl create namespace pfinal || exit 0'
+            }
+        }
+        stage('clientapp') {
+            steps {
+                sh 'kubectl apply -f ./test/deployement.yaml'
+            }
+        }
+        stage('serviceapp') {
+            steps {
+                sh 'kubectl apply -f ./test/service.yaml '
+            }
+        }     
+    }
 }
 
