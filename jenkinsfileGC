@@ -1,0 +1,51 @@
+pipeline {
+    agent {
+        any
+    }
+
+    environment {
+        SVC_ACCOUNT_KEY = credentials('json')
+    }
+    tools {
+        maven 'maven'
+    }
+    stages {
+        
+        stage('checkout') {
+            steps {
+                git branch: ''
+			}
+        }
+
+        stage('GCPcredentials') {
+            steps {
+                sh 'touch ./united-lane-241907-c7fa43cedef5.json'
+                sh 'echo $SVC_ACCOUNT_KEY | base64 -d > GCP_test/united-lane-241907-c7fa43cedef5.json'
+            }
+        }
+
+        stage('tooling') {
+            steps {
+                script {
+                    def tfHome = tool name: 'terraform'
+                    env.PATH = "${tfHome}:${env.PATH}"
+                }
+            } 
+        }
+        
+        stage('tfinit') {
+            steps {
+                dir('GCP_test') {
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('tfapply') {
+            steps {
+                dir('GCP_test') {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+}
