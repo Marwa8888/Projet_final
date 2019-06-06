@@ -24,7 +24,7 @@ pipeline {
         stage('deploy') {
             
             steps{
-		        sh "mvn install -Dmaven.test.skip=true"
+		        sh "mvn clean install -Dmaven.test.skip=true"
             }
         }
         stage('build') {
@@ -32,5 +32,13 @@ pipeline {
                 sh 'docker build -t image:1 .'
             }
         }
-    }
+        stage('Dockehub') {
+		    steps {
+                sh "docker login -u di122 -p connan122"
+                sh 'docker tag di122/projetfinal:1.0.0-SNAPSHOT di122/projetfinal:1.0.0-SNAPSHOT'
+                sh 'docker push di122/projetfinal:1.0.0-SNAPSHOT'
+            }
+        }
+    }   
 }
+
