@@ -1,24 +1,35 @@
-apiVersion: apps/v1
+apiVersion: appli/v1
 kind: Deployment
 metadata:
-  name: test-app-pods
+  name: appli-deploy
   namespace: kube
   labels:
-    app: apps
+    app: appli
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: apps
+      app: appli
   template:
     metadata:
-      name: hello-go
-      namespace: deployment
+      name: 
+      namespace: test
       labels:
-        app: apps
+        app: appli
     spec:
      containers:
-     - name: apps
-       image: nom_image....
-     imagePullSecrets:
-- name: thesecretkey-m8gh5b2d5c
+     - name: appli
+       image: di122/projetfinal
+       command:
+        - /usr/sbin/nginx
+        - -g
+        - daemon off;
+        - -q
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+   
