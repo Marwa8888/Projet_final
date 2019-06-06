@@ -74,8 +74,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <repository>borisfyot/app</repository>
-                    <tag>${project.version}</tag>
+                    <repository>di122/projetfinal</repository>
+			<tag>${project.version}</tag>
                     <buildArgs>
                     <JAR_FILE>${project.build.finalName}.${project.packaging}</JAR_FILE>
                     </buildArgs>
