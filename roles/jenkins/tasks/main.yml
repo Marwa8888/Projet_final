@@ -1,43 +1,21 @@
 ---
+- name: install Java
+  yum: name=java-1.8.0-openjdk-devel state=present
 
-- name: Downlowd and install Jenkins
-  yum_repository:
-    name: jenkins
-    description: Jenkins YUM repo
-    baseurl: http://pkg.jenkins-ci.org/redhat-stable/
-    enabled: yes
+- name: get Jenkins repository
+  get_url: url=http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
 
-- name: import Jenkins rpm key
-  rpm_key:
-    state: present
-    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+- name: add Jenkins repo to system
+  shell: rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
-- name: CENTOS | Install Jenkins
-  yum:
-    name: jenkins
-    state: present
+- name: install Jenkins
+  yum: name=jenkins state=present
 
-- name: CENTOS| install Java 
-  yum:
-    name:
-      - java-1.8.0-openjdk-devel
-    state: present
-
-- name: Install Git
-  yum:
-    name: git
-    state: present
-
-- name: Ensure Jenkins user exists
-  user:
-    name: "jenkins"
-    group: "jenkins"
-    groups: "wheel"
-    shell: "/bin/bash"
-    state: present
-
-- name: Configure Jenkins 
-  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins
-
-- name: Ensure Jenkins is running
+- name: enable Jenkins
   service: name=jenkins state=started enabled=yes
+
+- name: ensure firewalld is running
+  service: name=firewalld state=started
+
+- name: insert firewalld rule for Jenkins http port
+  firewalld: port=8080/tcp permanent=true state=enabled immediate=yes
