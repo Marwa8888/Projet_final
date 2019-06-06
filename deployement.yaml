@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app-pods
+  namespace: kube
+  labels:
+    app: apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apps
+  template:
+    metadata:
+      name: hello-go
+      namespace: deployment
+      labels:
+        app: apps
+    spec:
+     containers:
+     - name: apps
+       image: nom_image....
+     imagePullSecrets:
+- name: thesecretkey-m8gh5b2d5c
