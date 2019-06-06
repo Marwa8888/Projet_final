@@ -1,0 +1,6 @@
+---
+- name: Setup Mongo
+  hosts: mgtest
+  become: True
+  roles:
+  - samdoran.mongodb

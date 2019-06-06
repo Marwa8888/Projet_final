@@ -1,0 +1,80 @@
+- name: Include distribution specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml"
+        - "{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_version }}.yml"
+        - "{{ ansible_facts.os_family }}.yml"
+        - "{{ ansible_facts.distribution }}.yml"
+        - default.yml
+      paths:
+        - vars
+  tags:
+    - always
+    - mongodb
+
+- include_tasks: install-{{ ansible_facts.os_family }}.yml
+  tags:
+    - mongodb
+
+- name: Copy mongod.conf
+  template:
+    src: mongod.conf.j2
+    dest: "{{ mongodb_config_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart mongodb
+  tags:
+    - mongodb
+    - mongodb_config
+
+- name: Copy logrotate config file
+  template:
+    src: logrotate_mongod.j2
+    dest: /etc/logrotate.d/mongod
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - mongodb
+    - mongodb_config
+
+- name: Start and enable mongo
+  service:
+    name: "{{ mongodb_service_name }}"
+    enabled: yes
+    state: started
+  tags:
+    - mongodb
+    - mongodb_service
+
+#- name: Create MongodbUser
+ # mongodb_user:
+  #   login_user: admin
+   #  login_password: admin123
+    # database: MONGO_DB
+  #   name: user01
+   #  roles: readWrite
+   #  state: present
+
+# - name: Stop mongo
+#   service:
+#     name: "{{ mongodb_service_name }}"
+#     enabled: yes
+#     state: stopped
+
+- name: Copy mongod2.conf
+  template:
+     src: mongod2.conf.j2
+     dest: "{{ mongodb_config_file }}"
+     owner: root
+     group: root
+     mode: '0644'
+
+- name: Start mongo
+  service:
+     name: "{{ mongodb_service_name }}"
+     enabled: yes
+     state: started
