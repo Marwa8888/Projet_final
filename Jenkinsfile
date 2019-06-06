@@ -53,7 +53,7 @@ pipeline {
                 withEnv(['GCLOUD_PATH=/var/lib/jenkins/google-cloud-sdk/bin']){
                 sh '$GCLOUD_PATH/gcloud container clusters get-credentials test --zone europe-west1-b --project projetfinale-242610'
                 }
-                git branch: 'features/kube', credentialsId: '1c240902-a067-40ae-9420-6adba8545569', url: 'https://github.com/Marwa8888/Projet_final.git'
+                git branch: 'feature/Kub', credentialsId: '1c240902-a067-40ae-9420-6adba8545569', url: 'https://github.com/Marwa8888/Projet_final.git'
             }
         }
         stage('namespace') {
@@ -63,14 +63,13 @@ pipeline {
         }
         stage('clientapp') {
             steps {
-                sh 'kubectl apply -f ./test/deployement.yaml'
+                sh 'kubectl apply -f ./deployement.yaml'
             }
         }
         stage('serviceapp') {
             steps {
-                sh 'kubectl apply -f ./test/service.yaml '
+                sh 'kubectl apply -f ./service.yaml '
             }
         }     
     }
 }
-
