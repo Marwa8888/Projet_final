@@ -1,0 +1,13 @@
+apiVersion:
+kind: 
+metadata:
+  name: 
+spec:
+  selector:
+    app: apps
+  ports:
+  - protocol: 
+    port: 8080
+    targetPort:
+  loadBalancerIP:
+type: 
